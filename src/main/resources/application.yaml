@@ -1,0 +1,30 @@
+quarkus:
+  application:
+    name: home-library-bookshelf
+  http:
+    port: 8080
+    cors:
+      origins: ${CORS_ORIGINS}
+      methods: "GET,POST,DELETE"
+      headers: "Content-Type, Accept, X-Requested-With, remember-me"
+      access-control-max-age: "3600"
+      access-control-allow-credentials: true
+  log:
+    level: INFO
+    console:
+      enable: true
+  datasource:
+    db-kind: mariadb
+    jdbc:
+      driver: org.mariadb.jdbc.Driver
+      url: ${RDBMS_URL}
+      min-size: 5
+      max-size: 20
+      initial-size: 5
+      validation-query-sql: SELECT 1
+    username: ${DATASOURCE_USER}
+    password: ${DATASOURCE_PWD}
+  hibernate-orm:
+    dialect: org.hibernate.dialect.MariaDB103Dialect
+    database:
+      generation: update
