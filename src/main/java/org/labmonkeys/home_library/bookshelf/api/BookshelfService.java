@@ -31,7 +31,6 @@ public class BookshelfService {
         
         return mapper.BooksToDtos(Book.getBooks(catalogId));
     }
-    // Returns the known list of Books by isbn
 
     @GET
     @Path("/getBook/{book-id}")
@@ -40,7 +39,6 @@ public class BookshelfService {
         
         return mapper.BookToDto(Book.findById(bookId));
     }
-    // Returns a specific Book by ID
 
     @POST
     @Path("/updateBook")
@@ -50,7 +48,6 @@ public class BookshelfService {
         
         Book.persist(mapper.BookDtoToBook(book));
     }
-    // Updates a specific Book
 
     @POST
     @Path("/updateBooks")
@@ -60,7 +57,6 @@ public class BookshelfService {
 
         Book.persist(mapper.BookDtosToBooks(books));
     }
-    // Updates a group of Books
     
     @POST
     @Path("/addBook")
