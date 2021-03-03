@@ -33,20 +33,11 @@ public class BookshelfService {
     }
 
     @GET
-    @Path("/getBook/{book-id}")
+    @Path("/getBook/{bookId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public BookDTO getBook(@PathParam("book-id") Long bookId) throws BookShelfException {
+    public BookDTO getBook(@PathParam("bookId") Long bookId) throws BookShelfException {
         
         return mapper.BookToDto(Book.findById(bookId));
-    }
-
-    @POST
-    @Path("/updateBook")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Transactional
-    public void updateBook(BookDTO book) throws BookShelfException {
-        
-        Book.persist(mapper.BookDtoToBook(book));
     }
 
     @POST
@@ -72,9 +63,9 @@ public class BookshelfService {
     // Adds a Book to the BookShelf, Returns the hydrated Book with the assigned Book ID
 
     @DELETE
-    @Path("/deleteBook/{book-id}")
+    @Path("/deleteBook/{bookId}")
     @Transactional
-    public void deleteBook(@PathParam("book-id") Long bookId) throws BookShelfException {
+    public void deleteBook(@PathParam("bookId") Long bookId) throws BookShelfException {
         
         Book.deleteById(bookId);
     }
