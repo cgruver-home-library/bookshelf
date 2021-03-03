@@ -39,6 +39,9 @@ public class Book extends PanacheEntityBase {
     @Column()
     private Long bookShelfId;
 
+    public static Book findById(Long bookId) {
+        return findById(bookId);
+    }
     public static List<Book> getBooks(String catalogId) {
     
         return find("catalogId", catalogId).list();

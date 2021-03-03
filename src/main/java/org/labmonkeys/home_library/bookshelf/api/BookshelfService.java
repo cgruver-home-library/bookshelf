@@ -69,9 +69,8 @@ public class BookshelfService {
                 book.setBookShelfId(bookDTO.getBookShelfId());
                 book.setOnShelf(bookDTO.isOnShelf());
                 booksToUpdate.add(book);
-                book.persist();
             }
-            //Book.persist(booksToUpdate);
+            Book.persist(booksToUpdate);
         } catch (Exception e) {
             e.printStackTrace();
             LOG.error(e.getMessage());
