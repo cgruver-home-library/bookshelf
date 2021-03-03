@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.jboss.logging.Logger;
 import org.labmonkeys.home_library.bookshelf.dto.BookDTO;
 import org.labmonkeys.home_library.bookshelf.mapper.BookMapper;
 import org.labmonkeys.home_library.bookshelf.model.Book;
@@ -23,6 +24,7 @@ import org.labmonkeys.home_library.bookshelf.model.Book;
 @Path("/bookshelf")
 @ApplicationScoped
 public class BookshelfService {
+    final Logger LOG = Logger.getLogger(BookshelfService.class);
     @Inject BookMapper mapper;
 
     @GET
@@ -33,6 +35,7 @@ public class BookshelfService {
         try {
             books = mapper.BooksToDtos(Book.getBooks(catalogId));
         } catch (Exception e) {
+            LOG.error(e.getMessage());
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
         return Response.ok(books).build();
@@ -46,6 +49,7 @@ public class BookshelfService {
         try {
             book = mapper.BookToDto(Book.findById(bookId));
         } catch (Exception e) {
+            LOG.error(e.getMessage());
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
         return Response.ok(book).build();
@@ -59,6 +63,7 @@ public class BookshelfService {
         try {
             Book.persist(mapper.BookDtosToBooks(books));
         } catch (Exception e) {
+            LOG.error(e.getMessage());
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
         return Response.ok().build();
@@ -74,6 +79,7 @@ public class BookshelfService {
         try {
             Book.persist(entity);
         } catch (Exception e) {
+            LOG.error(e.getMessage());
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
         return Response.ok(mapper.BookToDto(entity)).build();
@@ -89,6 +95,7 @@ public class BookshelfService {
                 return Response.status(Status.NOT_FOUND).build();
             }
         } catch (Exception e) {
+            LOG.error(e.getMessage());
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
         return Response.ok().build();
