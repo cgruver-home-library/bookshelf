@@ -73,6 +73,7 @@ public class BookshelfService {
             }
             //Book.persist(booksToUpdate);
         } catch (Exception e) {
+            e.printStackTrace();
             LOG.error(e.getMessage());
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
