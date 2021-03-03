@@ -64,7 +64,8 @@ public class BookshelfService {
         List<Book> booksToUpdate = new ArrayList<Book>();
         try {
             for (BookDTO bookDTO : books) {
-                Book book = Book.findById(bookDTO.getBookId());
+                Book book = new Book();
+                book = Book.findById(bookDTO.getBookId());
                 book.setBookCaseId(bookDTO.getBookCaseId());
                 book.setBookShelfId(bookDTO.getBookShelfId());
                 book.setOnShelf(bookDTO.isOnShelf());
