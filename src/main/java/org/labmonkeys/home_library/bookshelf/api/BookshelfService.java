@@ -13,8 +13,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
-import org.labmonkeys.home_library.bookshelf.BookShelfException;
 import org.labmonkeys.home_library.bookshelf.dto.BookDTO;
 import org.labmonkeys.home_library.bookshelf.mapper.BookMapper;
 import org.labmonkeys.home_library.bookshelf.model.Book;
@@ -27,26 +28,40 @@ public class BookshelfService {
     @GET
     @Path("/getBooks/{catalogId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<BookDTO> getBooks(@PathParam("catalogId") String catalogId) throws BookShelfException {
-        
-        return mapper.BooksToDtos(Book.getBooks(catalogId));
+    public Response getBooks(@PathParam("catalogId") String catalogId) {
+        List<BookDTO> books = null;
+        try {
+            books = mapper.BooksToDtos(Book.getBooks(catalogId));
+        } catch (Exception e) {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        }
+        return Response.ok(books).build();
     }
 
     @GET
     @Path("/getBook/{bookId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public BookDTO getBook(@PathParam("bookId") Long bookId) throws BookShelfException {
-        
-        return mapper.BookToDto(Book.findById(bookId));
+    public Response getBook(@PathParam("bookId") Long bookId) {
+        BookDTO book = null;
+        try {
+            book = mapper.BookToDto(Book.findById(bookId));
+        } catch (Exception e) {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        }
+        return Response.ok(book).build();
     }
 
     @POST
     @Path("/updateBooks")
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public void updateBooks(List<BookDTO> books) throws BookShelfException {
-
-        Book.persist(mapper.BookDtosToBooks(books));
+    public Response updateBooks(List<BookDTO> books) {
+        try {
+            Book.persist(mapper.BookDtosToBooks(books));
+        } catch (Exception e) {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        }
+        return Response.ok().build();
     }
     
     @POST
@@ -54,20 +69,29 @@ public class BookshelfService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public BookDTO addBook(BookDTO book) throws BookShelfException {
-        
+    public Response addBook(BookDTO book) {
         Book entity = mapper.BookDtoToBook(book);
-        Book.persist(entity);
-        return mapper.BookToDto(entity);
+        try {
+            Book.persist(entity);
+        } catch (Exception e) {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        }
+        return Response.ok(mapper.BookToDto(entity)).build();
     }
     // Adds a Book to the BookShelf, Returns the hydrated Book with the assigned Book ID
 
     @DELETE
     @Path("/deleteBook/{bookId}")
     @Transactional
-    public void deleteBook(@PathParam("bookId") Long bookId) throws BookShelfException {
-        
-        Book.deleteById(bookId);
+    public Response deleteBook(@PathParam("bookId") Long bookId) {
+        try {
+            if (!Book.deleteById(bookId)) {
+                return Response.status(Status.NOT_FOUND).build();
+            }
+        } catch (Exception e) {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        }
+        return Response.ok().build();
     }
 }
 
