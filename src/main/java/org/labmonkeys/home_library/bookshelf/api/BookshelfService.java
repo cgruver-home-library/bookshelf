@@ -1,5 +1,6 @@
 package org.labmonkeys.home_library.bookshelf.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -60,8 +61,16 @@ public class BookshelfService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public Response updateBooks(List<BookDTO> books) {
+        List<Book> booksToUpdate = new ArrayList<Book>();
         try {
-            Book.persist(mapper.BookDtosToBooks(books));
+            for (BookDTO bookDTO : books) {
+                Book book = Book.findById(bookDTO.getBookId());
+                book.setBookCaseId(bookDTO.getBookCaseId());
+                book.setBookShelfId(bookDTO.getBookShelfId());
+                book.setOnShelf(bookDTO.isOnShelf());
+                booksToUpdate.add(book);
+            }
+            Book.persist(booksToUpdate);
         } catch (Exception e) {
             LOG.error(e.getMessage());
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
