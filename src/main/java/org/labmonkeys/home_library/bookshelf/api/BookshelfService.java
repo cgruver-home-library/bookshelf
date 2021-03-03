@@ -36,7 +36,7 @@ public class BookshelfService {
         try {
             books = mapper.BooksToDtos(Book.getBooks(catalogId));
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getStackTrace());
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
         return Response.ok(books).build();
@@ -50,7 +50,7 @@ public class BookshelfService {
         try {
             book = mapper.BookToDto(Book.findById(bookId));
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getStackTrace());
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
         return Response.ok(book).build();
@@ -72,7 +72,7 @@ public class BookshelfService {
             }
             Book.persist(booksToUpdate);
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getStackTrace());
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
         return Response.ok().build();
@@ -88,7 +88,7 @@ public class BookshelfService {
         try {
             Book.persist(entity);
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getStackTrace());
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
         return Response.ok(mapper.BookToDto(entity)).build();
@@ -104,7 +104,7 @@ public class BookshelfService {
                 return Response.status(Status.NOT_FOUND).build();
             }
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getStackTrace());
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
         return Response.ok().build();
