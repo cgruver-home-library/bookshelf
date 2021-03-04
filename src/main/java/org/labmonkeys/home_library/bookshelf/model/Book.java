@@ -11,6 +11,7 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.labmonkeys.home_library.bookshelf.dto.BookDTO.BookStatusEnum;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.Data;
@@ -31,7 +32,7 @@ public class Book extends PanacheEntityBase {
     private String catalogId;
 
     @Column()
-    private  boolean onShelf;
+    private  BookStatusEnum status;
 
     @Column()
     private Long bookCaseId;

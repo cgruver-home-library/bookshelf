@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.jboss.logging.Logger;
 import org.labmonkeys.home_library.bookshelf.dto.BookDTO;
+import org.labmonkeys.home_library.bookshelf.dto.BookDTO.BookStatusEnum;
 import org.labmonkeys.home_library.bookshelf.mapper.BookMapper;
 import org.labmonkeys.home_library.bookshelf.model.Book;
 
@@ -67,7 +68,7 @@ public class BookshelfService {
                 Book book = Book.findById(bookDTO.getBookId());
                 book.setBookCaseId(bookDTO.getBookCaseId());
                 book.setBookShelfId(bookDTO.getBookShelfId());
-                book.setOnShelf(bookDTO.isOnShelf());
+                book.setStatus(bookDTO.getStatus());
                 booksToUpdate.add(book);
             }
             Book.persist(booksToUpdate);
