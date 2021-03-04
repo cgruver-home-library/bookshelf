@@ -1,4 +1,4 @@
-package org.labmonkeys.home_library.bookshelf.api;
+package org.labmonkeys.home_library.bookshelf.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,32 +6,21 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.jboss.logging.Logger;
+import org.labmonkeys.home_library.bookshelf.api.BookshelfAPI;
 import org.labmonkeys.home_library.bookshelf.dto.BookDTO;
-import org.labmonkeys.home_library.bookshelf.dto.BookDTO.BookStatusEnum;
 import org.labmonkeys.home_library.bookshelf.mapper.BookMapper;
 import org.labmonkeys.home_library.bookshelf.model.Book;
 
-@Path("/bookshelf")
 @ApplicationScoped
-public class BookshelfService {
+public class BookshelfService implements BookshelfAPI {
     final Logger LOG = Logger.getLogger(BookshelfService.class);
     @Inject BookMapper mapper;
 
-    @GET
-    @Path("/getBooks/{catalogId}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getBooks(@PathParam("catalogId") String catalogId) {
         List<BookDTO> books = null;
         try {
@@ -43,9 +32,6 @@ public class BookshelfService {
         return Response.ok(books).build();
     }
 
-    @GET
-    @Path("/getBook/{bookId}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getBook(@PathParam("bookId") Long bookId) {
         BookDTO book = null;
         try {
@@ -57,9 +43,6 @@ public class BookshelfService {
         return Response.ok(book).build();
     }
 
-    @POST
-    @Path("/updateBooks")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public Response updateBooks(List<BookDTO> books) {
         List<Book> booksToUpdate = new ArrayList<Book>();
@@ -80,10 +63,6 @@ public class BookshelfService {
         return Response.ok().build();
     }
     
-    @POST
-    @Path("/addBook")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public Response addBook(BookDTO book) {
         Book entity = mapper.BookDtoToBook(book);
@@ -97,8 +76,6 @@ public class BookshelfService {
     }
     // Adds a Book to the BookShelf, Returns the hydrated Book with the assigned Book ID
 
-    @DELETE
-    @Path("/deleteBook/{bookId}")
     @Transactional
     public Response deleteBook(@PathParam("bookId") Long bookId) {
         try {
