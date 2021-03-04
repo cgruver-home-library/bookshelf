@@ -28,6 +28,9 @@ quarkus:
     dialect: org.hibernate.dialect.MariaDB103Dialect
     database:
       generation: update
+kafka:
+  bootstrap:
+    servers: ${KAFKA_BOOTSTRAP}
 mp:
   messaging:
     incoming:
