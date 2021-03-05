@@ -38,4 +38,4 @@ mp:
         connector: smallrye-kafka
         topic: book-event
         value:
-          deserializer: org.labmonkeys.home_library.bookshelf.messaging.BookDeserializer
+          deserializer: org.labmonkeys.home_library.bookshelf.messaging.BookEventDeserializer
