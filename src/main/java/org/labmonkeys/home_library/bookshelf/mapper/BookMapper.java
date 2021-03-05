@@ -3,7 +3,6 @@ package org.labmonkeys.home_library.bookshelf.mapper;
 import java.util.List;
 
 import org.labmonkeys.home_library.bookshelf.dto.BookDTO;
-import org.labmonkeys.home_library.bookshelf.messaging.BookEvent;
 import org.labmonkeys.home_library.bookshelf.messaging.BookState;
 import org.labmonkeys.home_library.bookshelf.model.Book;
 import org.mapstruct.Mapper;
