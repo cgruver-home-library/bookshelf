@@ -21,7 +21,7 @@ public class BookshelfSubscriber {
     @Blocking
     @Acknowledgment(Acknowledgment.Strategy.PRE_PROCESSING)
     public void bookshelfEvents(BookEvent bookEvent) {
-        
+        System.out.println(bookEvent.toString());
         bookshelf.updateBooks(mapper.BookStatesToDtos(bookEvent.getBookList()));
     }
 }
