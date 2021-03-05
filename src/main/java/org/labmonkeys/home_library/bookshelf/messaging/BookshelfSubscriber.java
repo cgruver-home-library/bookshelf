@@ -11,6 +11,7 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.labmonkeys.home_library.bookshelf.dto.BookDTO;
 import org.labmonkeys.home_library.bookshelf.mapper.BookMapper;
 import org.labmonkeys.home_library.bookshelf.service.BookshelfService;
+import io.smallrye.reactive.messaging.annotations.Blocking;
 
 @ApplicationScoped
 public class BookshelfSubscriber {
@@ -20,6 +21,7 @@ public class BookshelfSubscriber {
     @Inject BookMapper mapper;
 
     @Incoming("book-event")
+    @Blocking
     @Acknowledgment(Acknowledgment.Strategy.PRE_PROCESSING)
     public void bookshelfEvents(BookEvent bookEvent) {
         List<BookDTO> bookEvents = new ArrayList<BookDTO>();
