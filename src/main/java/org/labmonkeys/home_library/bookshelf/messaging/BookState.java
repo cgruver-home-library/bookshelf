@@ -1,13 +1,10 @@
-package org.labmonkeys.home_library.bookshelf.dto;
+package org.labmonkeys.home_library.bookshelf.messaging;
 
-import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 
 @Data
-@RegisterForReflection
-public class BookDTO {
+public class BookState {
     public enum BookStatusEnum{ON_SHELF,CHECKED_OUT,CHECKED_IN,LOST,DAMAGED};
-    private String catalogId;
     private Long bookId;
     private BookStatusEnum status;
     private Long bookCaseId;
