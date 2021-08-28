@@ -20,7 +20,7 @@ public class BookshelfSubscriber {
     @Incoming("book-event")
     @Blocking
     @Acknowledgment(Acknowledgment.Strategy.PRE_PROCESSING)
-    public void bookshelfEvents(BookEvent bookEvent) {
+    public void bookshelfEvents(BorrowedBookEvent bookEvent) {
         bookshelf.updateBooks(mapper.BookStatesToDtos(bookEvent.getBookList()));
     }
 }
